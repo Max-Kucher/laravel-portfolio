@@ -2,7 +2,7 @@
 {{-- show error using sidebar layout if looged in AND on an admin page; otherwise use a blank page --}}
 
 @php
-  $title = 'Error '.$error_number;
+  $title = __('errors/error.error_title', ['number' => $error_number]);
 @endphp
 
 @section('after_styles')
@@ -15,6 +15,8 @@
     .error_number small {
       font-size: 56px;
       font-weight: 700;
+
+      text-transform: uppercase;
     }
 
     .error_number hr {
@@ -40,7 +42,7 @@
 <div class="row">
   <div class="col-md-12 text-center">
     <div class="error_number">
-      <small>ERROR</small><br>
+      <small>{{ __('errors/error.error') }}</small><br>
       {{ $error_number }}
       <hr>
     </div>
