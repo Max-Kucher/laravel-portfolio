@@ -12,10 +12,16 @@ class SetLocale
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
+     * @throws \Exception
      */
     public function handle($request, Closure $next)
     {
-        app()->setLocale($request->segment(1));
+        $req_lang = $request->segment(1);
+        $available_languages = cache('available_languages');
+
+        if (in_array($req_lang, $available_languages)) {
+            app()->setLocale($req_lang);
+        }
 
         return $next($request);
     }
