@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LanguageRequest;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Enums\Status;
 
 /**
  * Class LanguageCrudController
@@ -22,9 +20,10 @@ class LanguageCrudController extends CrudController
 
     public function setup()
     {
+        parent::setupEntityNameStrings('language');
+
         $this->crud->setModel('App\Models\Language');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/language');
-        $this->crud->setEntityNameStrings('language', trans_choice('backend/models.languages', 2));
     }
 
     protected function setupListOperation()
@@ -38,22 +37,23 @@ class LanguageCrudController extends CrudController
         $this->crud->setValidation(LanguageRequest::class);
 
         // TODO: remove setFromDb() and manually define Fields
-        $this->crud->setFromDb();
+//        $this->crud->setFromDb();
 
-//        $this->crud->addField([
-//            'type' => 'radio',
-//            'name' => 'status',
-//            'label' => trans('backend/models.status'),
-//            'default' => Status::ACTIVE,
-//            'options' => [
-//                Status::ACTIVE => trans('backend/models.status_' . Status::ACTIVE),
-//                Status::DISABLE => trans('backend/models.status_' . Status::DISABLE),
-//            ],
-//            'inline' => true,
-//            'wrapper'   => [
-//                'class' => 'form-group col-md-12 required-radio'
-//            ],
-//        ]);
+        $this->crud->addField([
+            'type' => 'text',
+            'name' => 'lang_code',
+            'label' => trans('backend/models.lang_code'),
+            'hint' => trans('backend/hints.lang_code'),
+            'wrapper'   => [
+                'class' => 'form-group  col-xl-6'
+            ],
+        ])->addField([
+            'type' => 'text',
+            'name' => 'name',
+            'label' => trans('backend/models.name'),
+        ]);
+
+        $this->addStatusField();
     }
 
     protected function setupUpdateOperation()
