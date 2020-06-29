@@ -13,15 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/' . app()->getLocale());
+Route::get('/languages/change/{lang}/', 'LanguageController@changeLanguage')->name('change-language');
 
-Route::group([
-    'prefix' => '{locale}',
-    'where' => ['locale' => '[a-zA-Z]{2}'],
-    'middleware' => 'setlocale',
-    ], function() {
-
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('homepage');
-});
+Route::get('/', function () {
+    return view('welcome');
+})->name('homepage');

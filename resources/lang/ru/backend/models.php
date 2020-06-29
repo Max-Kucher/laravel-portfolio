@@ -2,6 +2,7 @@
 
 return [
     'language' => 'Язык|Языки',
+    'translation' => 'Перевод|Переводы',
     'status' => 'Статус',
     'status_A' => 'Вкл.',
     'status_D' => 'Выкл.',

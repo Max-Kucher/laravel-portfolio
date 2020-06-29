@@ -15,7 +15,7 @@ class CreateLanguagesTable extends Migration
     {
         Schema::create('languages', function (Blueprint $table) {
             $table->id();
-            $table->char('lang_code', 2);
+            $table->char('lang_code', 2)->unique();
             $table->string('name', 100);
             $table->char('status', 1);
 
@@ -30,6 +30,10 @@ class CreateLanguagesTable extends Migration
      */
     public function down()
     {
+        Schema::table('languages', function(Blueprint $table) {
+            $table->dropUnique(['lang_code']);
+        });
+
         Schema::dropIfExists('languages');
     }
 }

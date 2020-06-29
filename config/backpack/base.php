@@ -59,6 +59,9 @@ return [
 
         // Example (load font-awesome instead of line-awesome):
         // 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css',
+
+        // Add lib with country flags
+        'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css'
     ],
 
     // CSS files that are loaded in all pages, using Laravel's mix() helper

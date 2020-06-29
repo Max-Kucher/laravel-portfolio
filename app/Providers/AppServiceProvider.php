@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpFoundation\Session\Session;
 use App\Models\Language;
 use App\Enums\Status;
 
@@ -30,11 +33,27 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (empty(cache('available_languages'))) {
-            $lang = new Language();
-            $available_langs = $lang->where('status', '=', Status::ACTIVE)->get();
+        $available_languages = Cache::get('available_languages');
 
-            cache(['available_languages' => $available_langs]);
+        if (empty(cache('available_languages'))) {
+            if (empty($available_languages)) {
+                $available_languages = Language::where('status', Status::ACTIVE)->pluck('name', 'lang_code')->all();
+
+                Cache::put('available_languages', $available_languages);
+            }
         }
+
+        $session = new Session();
+        if ($session->has('language')) {
+            $language = $session->get('language');
+        } elseif (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $best_language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+            $language = in_array($best_language, array_keys($available_languages)) ? $best_language : config('app.locale');
+        } else {
+            $language = config('app.locale');
+        }
+
+        set_user_language($language);
+        View::share('available_languages', $available_languages);
     }
 }

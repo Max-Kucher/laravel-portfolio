@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\LanguageRequest;
+use Illuminate\Support\Facades\Cache;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -60,4 +61,14 @@ class LanguageCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+//
+//    public function store()
+//    {
+//        Cache::forget('available_languages');
+//    }
+//
+//    public function update()
+//    {
+//        Cache::forget('available_languages');
+//    }
 }
